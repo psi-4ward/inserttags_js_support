@@ -9,13 +9,11 @@
 class InserttagsJsSupport extends Controller
 {
 
-	public function insertPlaceholders($strBuffer, $strTemplate)
+	public function insertPlaceholders()
 	{
 		// add some Placeholders to replace it later
 		$GLOBALS['TL_MOOTOOLS'][] = '{{InserttagsJsSupport::TL_MOOTOOLS}}';
 		$GLOBALS['TL_HEAD'][] = '{{InserttagsJsSupport::TL_HEAD}}'; // in TL_HEAD we will handle TL_JAVASCRIPT and TL_CSS also
-
-		return $strBuffer;
 	}
 
 
@@ -62,9 +60,6 @@ class InserttagsJsSupport extends Controller
 				return $this->addNewHEAD();
 			break;
 
-			default:
-				return false;
-			break;
 		}
 
 		return false;
@@ -98,7 +93,7 @@ class InserttagsJsSupport extends Controller
 			$strHeadTags .= '<link' . (($GLOBALS['objPage']->outputFormat == 'xhtml') ? ' type="text/css"' : '') . ' rel="stylesheet" href="' . $this->addStaticUrlTo($stylesheet) . '" media="' . (($media != '') ? $media : 'all') . '"' . $strTagEnding . "\n";
 		}
 
-		return empty($strHeadTags) ? false : $strHeadTags;
+		return $strHeadTags;
 	}
 
 
@@ -107,7 +102,7 @@ class InserttagsJsSupport extends Controller
 		$diff = array_diff($GLOBALS['TL_MOOTOOLS'],$GLOBALS['TL_MOOTOOLS_COPY']);
 		if(empty($diff))
 		{
-			return false;
+			return '';
 		}
 
 		$strMootools = '';

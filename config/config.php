@@ -7,6 +7,6 @@
  */
 
 $GLOBALS['TL_HOOKS']['outputFrontendTemplate']['inserttags_js_support'] = array('InserttagsJsSupport','copyGlobals');
-$GLOBALS['TL_HOOKS']['parseFrontendTemplate']['inserttags_js_support'] = array('InserttagsJsSupport','insertPlaceholders');
+$GLOBALS['TL_HOOKS']['generatePage']['inserttags_js_support'] = array('InserttagsJsSupport','insertPlaceholders');
 
 $GLOBALS['TL_HOOKS']['replaceInsertTags']['inserttags_js_support'] = array('InserttagsJsSupport','myReplaceInsertTags');
