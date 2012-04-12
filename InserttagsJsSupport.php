@@ -17,9 +17,9 @@ class InserttagsJsSupport extends Controller
 	}
 
 
-
-	public function copyGlobals($strBuffer, $strTemplate)
+	public function myReplaceInsertTags1($strBuffer, $strTemplate)
 	{
+		// copy GLOBAL arrays to find new elements inserted throught insert-tags
 		foreach(array('TL_JAVASCRIPT','TL_HEAD','TL_MOOTOOLS','TL_CSS') as $opt)
 		{
 			if(isset($GLOBALS[$opt]) && is_array($opt))
@@ -32,6 +32,7 @@ class InserttagsJsSupport extends Controller
 			}
 		}
 
+		// first run of replaceInsertTags
 		$strBuffer = $this->replaceInsertTags($strBuffer);
 
 		return $strBuffer;
@@ -39,7 +40,7 @@ class InserttagsJsSupport extends Controller
 
 
 
-	public function myReplaceInsertTags($strTag)
+	public function myReplaceInsertTags2($strTag)
 	{
 		if(substr($strTag,0,19) != 'InserttagsJsSupport') return false;
 		list($tag,$val) = explode('::',$strTag);
