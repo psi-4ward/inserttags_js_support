@@ -12,12 +12,12 @@ class InserttagsJsSupport extends Controller
 	public function insertPlaceholders()
 	{
 		// add some Placeholders to replace it later
-		$GLOBALS['TL_MOOTOOLS'][] = '{{InserttagsJsSupport::TL_MOOTOOLS}}';
-		$GLOBALS['TL_HEAD'][] = '{{InserttagsJsSupport::TL_HEAD}}'; // in TL_HEAD we will handle TL_JAVASCRIPT and TL_CSS also
+		$GLOBALS['TL_MOOTOOLS'][] = '[[InserttagsJsSupport::TL_MOOTOOLS]]';
+		$GLOBALS['TL_HEAD'][] = '[[InserttagsJsSupport::TL_HEAD]]'; // in TL_HEAD we will handle TL_JAVASCRIPT and TL_CSS also
 	}
 
 
-	public function myReplaceInsertTags1($strBuffer, $strTemplate)
+	public function myReplaceInsertTags($strBuffer, $strTemplate)
 	{
 		// copy GLOBAL arrays to find new elements inserted throught insert-tags
 		foreach(array('TL_JAVASCRIPT','TL_HEAD','TL_MOOTOOLS','TL_CSS') as $opt)
@@ -32,38 +32,14 @@ class InserttagsJsSupport extends Controller
 			}
 		}
 
-		// first run of replaceInsertTags
+		// first run replaceInsertTags
 		$strBuffer = $this->replaceInsertTags($strBuffer);
 
+		// replace placeholders with new JS/CSS/MOOTOOLS/HEAD elements
+		$strBuffer = str_replace('[[InserttagsJsSupport::TL_MOOTOOLS]]',$this->addNewMOOTOOLS(),$strBuffer);
+		$strBuffer = str_replace('[[InserttagsJsSupport::TL_HEAD]]',$this->addNewHEAD(),$strBuffer);
+
 		return $strBuffer;
-	}
-
-
-
-	public function myReplaceInsertTags2($strTag)
-	{
-		if(substr($strTag,0,19) != 'InserttagsJsSupport') return false;
-		list($tag,$val) = explode('::',$strTag);
-
-		switch($val)
-		{
-			// first run, just hold the placeholders
-			case 'TL_HEAD':
-			case 'TL_MOOTOOLS':
-				return '{{'.$tag.'::'.$val.'2'.'}}';
-			break;
-
-			// second run, add additional stuff
-			case 'TL_MOOTOOLS2':
-				return $this->addNewMOOTOOLS();
-			break;
-			case 'TL_HEAD2':
-				return $this->addNewHEAD();
-			break;
-
-		}
-
-		return false;
 	}
 
 
